@@ -11,6 +11,7 @@ class Categorie extends Model
     protected $table = 'categories';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
+    protected $fillable = ['libelle'];
 
     public function produit()
     {

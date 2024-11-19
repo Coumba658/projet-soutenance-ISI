@@ -145,7 +145,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="/admin" class="nav-link active">
+              <a href="/admin" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -267,44 +267,30 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">Liste des utilisateurs</h3>
+                    <h3 class="card-title">Ajout catégorie Catégories</h3>
+                    <div class="text-end">
+                      <button type="button" class="btn btn-success">
+                        <a href="{{url('/categorie')}}" class="text-white" style="text-decoration: none;">Voir la liste des catégories</a>
+                      </button>
+                    </div>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     <table id="example2" class="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>Prenom</th>
-                          <th>Email</th>
-                          <th>Téléphone</th>
-                          <th>Adresse</th>
-                          <th>CNI</th>
-                          <th>Profil</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach($user as $user)
-                        <tr>
-                          <td>{{$user->prenom}}</td>
-                          <td>{{$user->email}}</td>
-                          <td>{{$user->telephone}}</td>
-                          <td>{{$user->adresse}}</td>
-                          <td>{{$user->cni}}</td>
-                          <td>{{$user->name}}</td>
-                          <td>
-                            <form action="{{ url('supprimerUser/' . $user->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                      <div class="">
+                        <div class="row py-5">
+                          <div class="col-md-6">
+                            <form enctype="multipart/form-data" method="POST" class="" action="{{route('ajoutCategorie')}}">
                               @csrf
-                              @method('DELETE')
-
-                              <button type="submit" class="btn btn-danger">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                              </button>
+                              <div class="form-group" style="width: 75%; margin-left: 12%;">
+                                <label for="username">Nom Catégorie</label>
+                                <input type="text" class="form-control" id="libelle" aria-describedby="libelle" name="libelle" required="required">
+                              </div>
+                              <div class="text-center mt-2">
+                                <button type="submit" class="btn btn-success">Ajouter</button>
+                              </div>
                             </form>
-                          </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
+                          </div>
                     </table>
                   </div>
                   <!-- /.card-body -->
@@ -366,7 +352,6 @@
   <script src="{{ asset ('AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset ('AdminLTE/dist/js/adminlte.js') }}"></script>
-
   <x-monbody>
   </x-monbody>
 </body>

@@ -7,6 +7,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\EleveurController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\PaiementController;
+use App\Http\Controllers\CategorieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,13 @@ Route::get('/contact', function () {
 Route::get('/admin', [UserController::class, 'index'])->middleware(['auth'])->name('admin');
 Route::get('/supprimerUser/{id}', [UserController::class, 'delete']);
 
+//Categorie Route
+Route::get('/categorie',  [CategorieController::class, 'index'])->middleware(['auth'])->name('categories');
+Route::get('/ajoutCategorie',  [CategorieController::class, 'create'])->middleware(['auth'])->name('ajoutCategorie');
+Route::post('/ajoutCategorie',  [CategorieController::class, 'store'])->middleware(['auth'])->name('ajoutCategorie');
+Route::get('/modifierCategorie/{id}',  [CategorieController::class, 'edit'])->middleware(['auth']);
+Route::put('/updateCategorie/{id}',  [CategorieController::class, 'update'])->middleware(['auth']);
+Route::delete('/deleteCategorie/{id}', [CategorieController::class, 'delete']);
 
 
 Route::get('/paiement', [PaiementController::class, 'index'])->name('paiement.index');

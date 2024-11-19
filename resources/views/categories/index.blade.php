@@ -145,7 +145,7 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="/admin" class="nav-link active">
+              <a href="/admin" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -267,37 +267,44 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title">Liste des utilisateurs</h3>
+                    <h3 class="card-title">Liste des Catégories</h3>
+                    <div class="text-end">
+                      <button type="button" class="btn btn-success">
+                        <a href="/ajoutCategorie" class="text-white" style="text-decoration: none;">Ajouter une catégorie</a>
+                      </button>
+                    </div>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body">
                     <table id="example2" class="table table-bordered table-hover">
                       <thead>
                         <tr>
-                          <th>Prenom</th>
-                          <th>Email</th>
-                          <th>Téléphone</th>
-                          <th>Adresse</th>
-                          <th>CNI</th>
-                          <th>Profil</th>
-                          <th>Actions</th>
+                          <th>
+                            <span class="custom-checkbox">
+                              <input type="checkbox" id="selectAll">
+                              <label for="selectAll"></label>
+                            </span>
+                          </th>
+                          <th>Nom Catégorie</th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($user as $user)
+                        @foreach($categorie as $categorie)
                         <tr>
-                          <td>{{$user->prenom}}</td>
-                          <td>{{$user->email}}</td>
-                          <td>{{$user->telephone}}</td>
-                          <td>{{$user->adresse}}</td>
-                          <td>{{$user->cni}}</td>
-                          <td>{{$user->name}}</td>
                           <td>
-                            <form action="{{ url('supprimerUser/' . $user->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                            <span class="custom-checkbox">
+                              <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                              <label for="checkbox1"></label>
+                            </span>
+                          </td>
+                          <td>{{$categorie->libelle}}</td>
+                          <td class="d-flex align-items-center pt-3 pb-3">
+                            <button type="button" class="btn btn-primary"><a href="{{url('modifierCategorie/'.$categorie->id)}}" class="text-white" style="text-decoration: none;"><i class="fa fa-pencil" aria-hidden="true"></i></a></button>
+                            <form action="{{ url('deleteCategorie/' . $categorie->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">
                               @csrf
                               @method('DELETE')
 
-                              <button type="submit" class="btn btn-danger">
+                              <button type="submit" class="btn btn-danger ms-2">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                               </button>
                             </form>
@@ -366,7 +373,6 @@
   <script src="{{ asset ('AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset ('AdminLTE/dist/js/adminlte.js') }}"></script>
-
   <x-monbody>
   </x-monbody>
 </body>
