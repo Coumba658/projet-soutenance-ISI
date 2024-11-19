@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Paydunya\Setup;
-use Paydunya\Checkout\CheckoutInvoice;
 
 
 class PaiementController extends Controller

@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paiement en ligne</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement en ligne</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://paytech.sn/cdn/paytech.min.js"></script>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">Procéder au paiement</h2>
-    </div>
+  <div class="container mt-5">
+    <h2 class="text-center">Procéder au paiement</h2>
+  </div>
+
+
 </body>
+
 </html>

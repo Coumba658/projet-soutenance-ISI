@@ -74,22 +74,19 @@
     <div class="row g-0">
       @foreach($produit as $produit)
       <div class="mt-3 ms-4" style="width: 14rem;">
-        <img src="{{ url('public/Image/'.$produit->image) }}" alt="" class="card-img-top" height="150">
+        <a href="{{route('voir-produit',['id'=>$produit->id])}}">
+          <img src="{{ url('public/Image/'.$produit->image) }}" alt="" class="card-img-top" height="150">
+        </a>
         <div class="card-body">
           <h5 class="card-title">{{$produit->libelle}}</h5>
           <h3 class="card-prix text-success">{{$produit->prix}} FCFA</h3>
           <p class="card-text">{{$produit->description}}</p>
           <!--<a href="{{route('voir-produit',['id'=>$produit->id])}}" class="btn btn-success">Détails produit</a>-->
-          <a href="#" class="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#productModal"
-            data-product-id="{{$produit->id}}"
-            data-product-title="{{$produit->libelle}}"
-            data-product-price="{{$produit->prix}} FCFA"
-            data-product-description="{{$produit->description}}"
-            data-product-image="{{ url('public/Image/'.$produit->image) }}">
-            Détails produit
-          </a>
+          <form action="{{ route('cart.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="produit_id" value="{{ $produit->id }}">
+            <button type="submit" class="btn btn-success btn-sm"><i class='fa fa-plus me-1'></i>Ajouter au panier</button>
+          </form>
         </div>
       </div>
       @endforeach
@@ -129,24 +126,24 @@
 
   <script>
     var productModal = document.getElementById('productModal');
-    productModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget; // Le bouton qui a ouvert le modal
-        
-        // Obtenir les données du produit
-        var productId = button.getAttribute('data-product-id');
-        var productTitle = button.getAttribute('data-product-title');
-        var productPrice = button.getAttribute('data-product-price');
-        var productDescription = button.getAttribute('data-product-description');
-        var productImage = button.getAttribute('data-product-image');
+    productModal.addEventListener('show.bs.modal', function(event) {
+      var button = event.relatedTarget; // Le bouton qui a ouvert le modal
 
-        // Mettre à jour les contenus du modal
-        productModal.querySelector('#modalProductId').value = productId;
-        productModal.querySelector('#modalProductImage').src = productImage;
-        productModal.querySelector('#modalProductTitle').textContent = productTitle;
-        productModal.querySelector('#modalProductPrice').textContent = productPrice;
-        productModal.querySelector('#modalProductDescription').textContent = productDescription;
+      // Obtenir les données du produit
+      var productId = button.getAttribute('data-product-id');
+      var productTitle = button.getAttribute('data-product-title');
+      var productPrice = button.getAttribute('data-product-price');
+      var productDescription = button.getAttribute('data-product-description');
+      var productImage = button.getAttribute('data-product-image');
+
+      // Mettre à jour les contenus du modal
+      productModal.querySelector('#modalProductId').value = productId;
+      productModal.querySelector('#modalProductImage').src = productImage;
+      productModal.querySelector('#modalProductTitle').textContent = productTitle;
+      productModal.querySelector('#modalProductPrice').textContent = productPrice;
+      productModal.querySelector('#modalProductDescription').textContent = productDescription;
     });
-</script>
+  </script>
 
 </body>
 
