@@ -69,6 +69,12 @@ Route::get('/modifierCategorie/{id}',  [CategorieController::class, 'edit'])->mi
 Route::put('/updateCategorie/{id}',  [CategorieController::class, 'update'])->middleware(['auth']);
 Route::delete('/deleteCategorie/{id}', [CategorieController::class, 'delete']);
 
+//Paiement Route
+//Route::get('/paiement', [PaiementController::class, 'index'])->name('paiement.index');
+//Route::get('/paiement', [PaiementController::class, 'Payment'])->name('paiement.Payment');
 
 Route::get('/paiement', [PaiementController::class, 'index'])->name('paiement.index');
+Route::post('/paiement', [PaiementController::class, 'Payment'])->name('paiement.index');
+Route::match(['get','post'],'/notify_url', [PaiementController::class, 'notify_url'])->name('notify_url');
+Route::match(['get','post'],'/return_url', [PaiementController::class, 'return_url'])->name('return_url');
 
