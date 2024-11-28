@@ -49,16 +49,17 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
-              </a>
-
+            <a href="{{ url('/dashboard') }}" class="dropdown-item text-sm text-gray-700 dark:text-gray-500 underline" style="color: initial;">Dashboard</a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
               </form>
               <a class="dropdown-item" href="{{ route('produits') }}">Liste des produits</a>
+              
+              <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                {{ __('Se Deconnecter') }}
+              </a>
             </div>
           </div>
           @endguest
@@ -78,7 +79,7 @@
         <form enctype="multipart/form-data" method="POST" class="bg-white shadow rounded pb-3 pt-3" action="{{route('ajoutProduit')}}">
           @csrf
           <div class="form-group" style="width: 75%; margin-left: 12%;">
-            <label for="username">Titre</label>
+            <label for="username">Nom Produit</label>
             <input type="text" class="form-control" id="libelle" aria-describedby="libelle" name="libelle" required="required">
           </div>
           <div class="form-group" style="width: 75%; margin-left: 12%;">

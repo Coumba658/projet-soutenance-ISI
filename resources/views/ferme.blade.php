@@ -1,129 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <x-monheader>
-
 </x-monheader>
+<x-monnav>
+</x-monnav>
 
 <title>A Propos</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
-
-<style>
-  body {
-    margin: 2rem;
-  }
-
-  .modal-dialog {
-    max-width: 800px;
-    margin: 30px auto;
-  }
-
-  .modal-body {
-    position: relative;
-    padding: 0px;
-  }
-
-  .btn-close {
-    position: absolute;
-    right: -30px;
-    top: 0;
-  }
-</style>
+@vite(['resources/css/about.css'])
 
 <body>
-  <nav class="navbar navbar-expand-lg bg-white py-3 shadow-sm fixed-top">
-    <div class="container-fluid">
-      <div>
-        <a href='/'><img src="/images/agrimarket-logo.png" alt="logo" width="200" height="40"></img></a>
-      </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ms-4" href="/ferme">A Propos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ms-4" href="/e-daral">Le Marché</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link ms-4" href="/contact">Contact</a>
-          </li>
-        </ul>
-        <div class='buttons'>
-          @if (Route::has('login'))
-          @auth
-          <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Profil</a>
-          @else
-          <a href="{{ route('login') }}" class='btn btn-outline-success rounded-pill'>
-            <i class='fa fa-user me-1'></i>
-            Login
-          </a>
-          @if (Route::has('register'))
-          <a href="{{ route('register') }}" class='btn btn-outline-success rounded-pill ms-2'>
-            <i class='fa fa-user-plus me-1'></i>
-            Inscription
-          </a>
-          @endif
-          @endauth
 
-          @endif
-          <a href="{{route('cart.index')}}" class='btn btn-outline-success rounded-pill ms-2'>
-            <i class='fa fa-shopping-cart me-1'></i>{{ Cart::count() }}
-          </a>
+  <header>
+    <div class="overlay"></div>
+
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <source src="/images/aboutHeader.mp4" type="video/mp4">
+    </video>
+
+    <div class="container h-100">
+      <div class="d-flex h-100 text-center align-items-center">
+        <div class="w-100 text-white">
+          <h1 class="display-3">À Propos</h1>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <div class="container py-5 mt-5">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary video-btn" data-bs-toggle="modal" data-src="/images/video.mp4" data-bs-target="#myModal">
-      Regarder la vidéo
-    </button>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></span>
-            </button>
-            <!-- 16:9 aspect ratio -->
-            <div class="ratio ratio-16x9">
-              <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always" allow="autoplay"></iframe>
-            </div>
-          </div>
+  <section class="my-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <p>Chez AgriMarket, notre mission est de connecter directement les agriculteurs et les consommateurs, en supprimant les intermédiaires pour offrir des produits frais, de qualité et à des prix compétitifs. Nous croyons fermement en l'importance de soutenir les communautés agricoles tout en facilitant l'accès des consommateurs à des produits locaux et biologiques.</p>
+          <br>
+          <h3>Pourquoi choisir AgriMarket ?</h3>
+          <br>
+          <h5>Pour les agriculteurs :</h5>
+          <p>Nous offrons aux producteurs une plateforme simple et efficace pour mettre en valeur leurs récoltes, gérer leurs ventes et interagir directement avec leurs clients.</p>
+          <br>
+          <h5>Pour les consommateurs :</h5>
+          <p>Découvrez un large choix de produits agricoles locaux, issus de fermes de confiance. Faites vos achats en toute transparence et recevez vos produits directement chez vous.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+
+  <div class="about-section">
+    <div class="video-container">
+      <video id="aboutVideo" class="video" controls style="display: none;">
+        <source src="/images/video.mp4" type="video/mp4">
+        Votre navigateur ne prend pas en charge la vidéo.
+      </video>
+      <button class="play-button" id="playButton">
+        <span class="play-icon">&#9658;</span>
+      </button>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      let videoSrc;
+    const playButton = document.getElementById('playButton');
+    const video = document.getElementById('aboutVideo');
 
-      document.querySelectorAll('.video-btn').forEach(button => {
-        button.addEventListener('click', () => {
-          videoSrc = button.getAttribute('data-src');
-        });
-      });
-
-      const myModal = document.getElementById('myModal');
-      myModal.addEventListener('shown.bs.modal', function() {
-        document.getElementById('video').src = videoSrc + "?autoplay=1";
-      });
-
-      myModal.addEventListener('hide.bs.modal', function() {
-        document.getElementById('video').src = '';
-      });
+    playButton.addEventListener('click', () => {
+      playButton.style.display = 'none'; // Cache le bouton
+      video.style.display = 'block'; // Affiche la vidéo
+      video.play(); // Joue la vidéo
     });
   </script>
+
 
   <x-monfooter>
   </x-monfooter>

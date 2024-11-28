@@ -112,7 +112,7 @@
 
                     <!-- Champ Test -->
                     <div class="mt-4">
-                        <x-label for="telephone" :value="__('Téléphone')" />
+                        <x-label for="telephone" :value="__('Telephone')" />
 
                         <x-input id="telephone" class="block mt-1 w-full" type="text" name="telephone" :value="old('telephone')" required />
                     </div>
@@ -131,7 +131,7 @@
                      <!-- Champ role -->
                      <div class="mt-4">
 
-                    <x-label for="compte" :value="__('Compte')" />
+                    <x-label for="compte" :value="__('Profil')" />
                     <select class="form-select block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" aria-label="Default select example" name="compte">
                        
                     @foreach($role as $role)

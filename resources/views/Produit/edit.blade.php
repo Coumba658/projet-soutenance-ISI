@@ -48,10 +48,11 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a href="{{ url('/dashboard') }}" class="dropdown-item text-sm text-gray-700 dark:text-gray-500 underline" style="color: initial;">Dashboard</a>
               <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
+                {{ __('Se Deconnecter') }}
               </a>
 
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -80,7 +81,7 @@
 
           <input type="hidden" name="id" value="{{$produit->id}}">
           <div class="form-group" style="width: 75%; margin-left: 12%;">
-            <label for="username">Titre</label>
+            <label for="username">Nom produit</label>
             <input type="text" class="form-control" aria-describedby="libelle" name="libelle" value="{{ $produit->libelle }}">
           </div>
           <div class="form-group" style="width: 75%; margin-left: 12%;">

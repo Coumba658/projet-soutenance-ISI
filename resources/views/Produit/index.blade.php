@@ -48,10 +48,11 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a href="{{ url('/dashboard') }}" class="dropdown-item text-sm text-gray-700 dark:text-gray-500 underline" style="color: initial;">Dashboard</a>
               <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
+                {{ __('Se Deconnecter') }}
               </a>
 
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -86,10 +87,9 @@
                   <label for="selectAll"></label>
                 </span>
               </th>
-              <th>Titre</th>
+              <th>Nom produit</th>
               <th>Image</th>
               <th>Prix</th>
-              <th>Description</th>
               <th>Date d'ajout</th>
               <th>Categorie</th>
               <th>Actions</th>
@@ -110,7 +110,6 @@
                 <img src="{{ url('public/Image/'.$produit->image) }}" alt="" height="50px">
               </td>
               <td>{{$produit->prix}}</td>
-              <td>{{$produit->description}}</td>
               <td>{{$produit->date_ajout}}</td>
               <td>{{$produit->categorie->libelle}}</td>
               <td class="d-flex align-items-center pt-3 pb-3">

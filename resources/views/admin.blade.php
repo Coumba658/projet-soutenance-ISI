@@ -107,7 +107,7 @@
             <a class="dropdown-item" href="{{ route('logout') }}"
               onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
-              {{ __('Logout') }}
+              {{ __('Se Deconnecter') }}
             </a>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -216,7 +216,6 @@
               <div class="small-box bg-success">
                 <div class="inner">
                   <h3>6<sup style="font-size: 20px"></sup></h3>
-
                   <p>Catégories</p>
                 </div>
                 <div class="icon">
@@ -230,7 +229,6 @@
               <div class="small-box bg-warning">
                 <div class="inner">
                   <h3>4</h3>
-
                   <p>Producteurs</p>
                 </div>
                 <div class="icon">
@@ -244,7 +242,6 @@
               <div class="small-box bg-danger">
                 <div class="inner">
                   <h3>5</h3>
-
                   <p>Acheteurs</p>
                 </div>
                 <div class="icon">
