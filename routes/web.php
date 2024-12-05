@@ -70,9 +70,6 @@ Route::put('/updateCategorie/{id}',  [CategorieController::class, 'update'])->mi
 Route::delete('/deleteCategorie/{id}', [CategorieController::class, 'delete']);
 
 //Paiement Route
-//Route::get('/paiement', [PaiementController::class, 'index'])->name('paiement.index');
-//Route::get('/paiement', [PaiementController::class, 'Payment'])->name('paiement.Payment');
-
 Route::get('/paiement', [PaiementController::class, 'index'])->name('paiement.index');
 Route::post('/paiement', [PaiementController::class, 'Payment'])->name('paiement.index');
 Route::match(['get','post'],'/notify_url', [PaiementController::class, 'notify_url'])->name('notify_url');

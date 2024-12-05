@@ -12,60 +12,65 @@ class PaiementController extends Controller
     {
         return view('paiement.index');
     }
+
     public function Payment(Request $request)
     {
-        $transaction_id = date("YmdHis"); // Generer votre identifiant de transaction
-        $cinetpay_data =  [
-            "amount" => $request['amount'],
-            "currency" => $request['currency'],
-            "apikey" => env("APIKEY"),
-            "site_id" => env("SITE_ID"),
-            "transaction_id" => "sdkLaravel-" . $transaction_id,
-            "description" => "TEST-Laravel",
-            "return_url" => route('return_url'),
-            "notify_url" => route('notify_url'),
-            "metadata" => "user001",
-            'customer_surname' => "",
-            'customer_name' => "",
-            'customer_email' => "",
-            'customer_phone_number' => '',
-            'customer_address' => '',
-            'customer_city' => '',
-            'customer_country' => '',
-            'customer_state' => '',
-            'customer_zip_code' => ''
-        ];
-        //Sequence d'initialisation du lien de paiement
-        $curl = curl_init();
+        Log::info('Paiement initier', ['request' => $request->all()]);
+        $ref_commande = 'CMD-' . date("YmdHis");
+        $customfield = json_encode([
+            'customer_name' => $request->input('customer_name', ''),
+            'customer_email' => $request->input('customer_email', ''),
+            'customer_phone' => $request->input('customer_phone', '')
+        ]);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-checkout.cinetpay.com/v2/payment',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 45,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($cinetpay_data),
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_HTTPHEADER => array(
-                "content-type:application/json"
-            ),
-        ));
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
+        $postFields = array(
+            "item_name" => "Paiement",
+            "item_price" => $request->input('amount'),
+            "currency" => "xof",
+            "ref_command" => $ref_commande,
+            "command_name" => "Paiement en ligne",
+            "env" => "test", // ou "prod" pour la production
+            "success_url" => "http://localhost:8000/dashboard", // reddiriger vers la page de visualisation de la facture
+            "ipn_url" => "https://paytech.sn/api/payment/notify", //route('notify_url'),
+            "cancel_url" => "http://localhost:8000/panier"//route('panier'), // reddiriger vers la page du panier
+        //     "custom_field" => $customfield
+        );
 
-        //On recupère la réponse de CinetPay
-        $response_body = json_decode($response, true);
-        if ($response_body['code'] == '201') {
-            $payment_link = $response_body["data"]["payment_url"]; // Recuperation de l'url de paiement
-            //Enregistrement des informations dans la base de donnée
-            //Ensuite redirection vers la page de paiement
-            return redirect($payment_link);
+        $response = $this->post('https://paytech.sn/api/payment/request-payment', $postFields, [
+            "API_KEY: " . env('APIKEY'),
+            "API_SECRET: " . env('APISECRET')
+        ]);
+
+        $response_data = json_decode($response, true);
+
+        if (isset($response_data['success']) && $response_data['success'] === 1) {
+            Log::info('Paiement effectuer', ['response' => $response_data]);
+            return redirect($response_data['redirect_url']);
         } else {
-            return back()->with('info', 'Une erreur est survenue.  Description : ' . $response_body["description"]);
+            Log::info('Paiement echoué', ['response' => $response_data]);
+            return back()->with('error', 'Une erreur est survenue lors de l\'initialisation du paiement.');
         }
+    }
+
+    private function post($url, $data = [], $header = [])
+    {
+        $strPostField = http_build_query($data);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $strPostField);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($header, [
+            'Content-Type: application/x-www-form-urlencoded;charset=utf-8',
+            'Content-Length: ' . mb_strlen($strPostField)
+        ]));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        return $response;
     }
 
     //configuration de l'api la notification
